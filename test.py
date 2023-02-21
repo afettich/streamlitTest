@@ -2,7 +2,7 @@
 import streamlit as st
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
+import matplotlib
 
 st.write("Hello ,let's learn how to build a streamlit app together")
 st.title ("this is the app title")
