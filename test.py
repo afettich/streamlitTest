@@ -2,7 +2,7 @@
 import streamlit as st
 import numpy as np
 import pandas as pd
-import matplotlib
+import matplotlib.pyplot as plt
 
 st.write("Hello ,let's learn how to build a streamlit app together")
 st.title ("this is the app title")
@@ -21,3 +21,13 @@ st.multiselect('choose a planet',['Jupiter', 'Mars', 'neptune'])
 st.select_slider('Pick a mark', ['Bad', 'Good', 'Excellent'])
 st.slider('Pick a number', 0,50)
 
+rand=np.random.normal(1, 2, size=20)
+fig, ax = plt.subplots()
+ax.hist(rand, bins=15)
+st.pyplot(fig)
+
+df= pd.DataFrame(    np.random.randn(10, 2),    columns=['x', 'y'])
+st.line_chart(df)
+
+df = pd.DataFrame(np.random.randn(500, 2) / [50, 50] + [37.76, -122.4],columns=['lat', 'lon'])
+st.map(df)
