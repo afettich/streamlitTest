@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import datetime as dt
-import pickle,glob,re
+import pickle,glob,re,os
 from netCDF4 import Dataset
 import altair as alt
 import matplotlib.patches as mpatches
@@ -111,12 +111,6 @@ def readECMWF(datadir,param):
         ens_df = pd.concat([ens_df,df],axis=1,join='outer')
     return ens_df
 
-# def readEns(pickle_file):
-#     f = open(pickle_file,'rb')
-#     run,tide_run = pickle.load(f)
-#     f.close()
-#     return f
-
 def readEns(datadir):
     ens_df = pd.DataFrame()
     for file in glob.glob(datadir + '/ssh_kp_*.nc'):
@@ -187,14 +181,71 @@ dateStart=datetime.strptime('20230221', '%Y%m%d')
 
 ###################################################
 
-insitu = readSSH('mareografKP_vodostaj.txt')
-ens_df = readEns('.')
-veter = readECMWF('.','veter')
-insituVeter= readVeter('.Koper_wind.txt')
+if os.path.isfile('mareografKP_vodostaj.pickle'):
+    f = open('mareografKP_vodostaj.pickle','rb')
+    insitu = pickle.load(f)
+    f.close()
+else:
+    insitu = readSSH('mareografKP_vodostaj.txt')
+    with open('mareografKP_vodostaj.pickle','wb') as f:
+        pickle.dump(insitu,f)
+        f.close()
+
+if os.path.isfile('Koper_veter.pickle'):
+    f = open('Koper_veter.pickle','rb')
+    insituVeter = pickle.load(f)
+    f.close()
+else:
+    insituVeter= readVeter('Koper_wind.txt')
+    with open('Koper_veter.pickle','wb') as f:
+        pickle.dump(insituVeter,f)
+        f.close()
+
+if os.path.isfile('Koper_mslp.pickle'):
+    f = open('Koper_mslp.pickle','rb')
+    insituMsl = pickle.load(f)
+    f.close()
+else:
+    insituMsl= readMsl('Koper_mslp.txt')
+    with open('Koper_mslp.pickle','wb') as f:
+        pickle.dump(insituMsl,f)
+        f.close()
+        
+
+if os.path.isfile('nemo_ens.pickle'):
+    f = open('nemo_ens.pickle','rb')
+    ens_df = pickle.load(f)
+    f.close()
+else:
+    ens_df = readEns('/home/anja/streamlit_examples/')
+    with open('nemo_ens.pickle','wb') as f:
+        pickle.dump(ens_df,f)
+        f.close()
+
+if os.path.isfile('ecmwf_veter.pickle'):
+    f = open('ecmwf_veter.pickle','rb')
+    veter = pickle.load(f)
+    f.close()
+else:
+    veter = readECMWF('/home/anja/streamlit_examples/','veter')
+    with open('ecmwf_veter.pickle','wb') as f:
+        pickle.dump(veter,f)
+        f.close()
+
+if os.path.isfile('ecmwf_msl.pickle'):
+    f = open('ecmwf_msl.pickle','rb')
+    msl = pickle.load(f)
+    f.close()
+else:
+    msl = readECMWF('/home/anja/streamlit_examples/','msl')
+    with open('ecmwf_msl.pickle','wb') as f:
+        pickle.dump(msl,f)
+        f.close()
+
+
+
 veter_df = calcMeanECMWF(veter)
 
-msl = readECMWF('.','msl')
-insituMsl= readMsl('Koper_mslp.txt')
 msl_df = calcMeanECMWF(msl)
 
 
