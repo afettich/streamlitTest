@@ -2,3 +2,7 @@ streamlit
 numpy
 pandas
 matplotlib
+datetime
+netCDF4
+altair
+plotly
