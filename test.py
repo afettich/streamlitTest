@@ -188,13 +188,13 @@ dateStart=datetime.strptime('20230221', '%Y%m%d')
 ###################################################
 
 insitu = readSSH('mareografKP_vodostaj.txt')
-ens_df = readEns('/home/anja/streamlit_examples/')
-veter = readECMWF('/home/anja/streamlit_examples/','veter')
-insituVeter= readVeter('/home/anja/streamlit_examples/Koper_wind.txt')
+ens_df = readEns('.')
+veter = readECMWF('.','veter')
+insituVeter= readVeter('.Koper_wind.txt')
 veter_df = calcMeanECMWF(veter)
 
-msl = readECMWF('/home/anja/streamlit_examples/','msl')
-insituMsl= readMsl('/home/anja/streamlit_examples/Koper_mslp.txt')
+msl = readECMWF('.','msl')
+insituMsl= readMsl('Koper_mslp.txt')
 msl_df = calcMeanECMWF(msl)
 
 
